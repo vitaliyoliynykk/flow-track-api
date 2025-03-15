@@ -11,4 +11,11 @@ const generateTokens = (userId) => {
   return { accessToken, refreshToken };
 };
 
-module.exports = generateTokens;
+const generateNewAccessToken = (refreshToken) => {
+  const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+  return jwt.sign({ id: decoded.id }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
+};
+
+module.exports = { generateTokens, generateNewAccessToken };

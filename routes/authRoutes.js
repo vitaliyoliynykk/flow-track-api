@@ -1,9 +1,13 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
 
-const generateTokens = require("../utils/generateTokens");
+const {
+  generateTokens,
+  generateNewAccessToken,
+} = require("../utils/generateTokens");
 
 const router = express.Router();
 
@@ -44,10 +48,32 @@ router.post("/login", async (req, res) => {
 
     const { accessToken, refreshToken } = generateTokens(user._id);
 
+    user.refresh_token = refreshToken;
+
+    await user.save();
+
     res.json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Помилка сервера" });
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.post("/refresh", async (req, res) => {
+  const { refreshToken: refresh_token } = req.body;
+
+  if (!refresh_token)
+    return res.status(401).json({ message: "Not authorized" });
+
+  const user = await User.findOne({ refresh_token });
+  if (!user) return res.status(403).json({ message: "Token is invalid" });
+
+  try {
+    const newAccessToken = generateNewAccessToken(refresh_token);
+
+    res.json({ accessToken: newAccessToken });
+  } catch (error) {
+    res.status(403).json({ message: "Token is invalid" });
   }
 });
 
