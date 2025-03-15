@@ -1,0 +1,11 @@
+{
+  "name": "flow-track-api",
+  "version": "1.0.0",
+  "description": "API for flow-track - productivity app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vitalii Oliinyk",
+  "license": "ISC"
+}
