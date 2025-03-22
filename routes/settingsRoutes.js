@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 
-const Settings = require("../models/Settings");
+const Settings = require('../models/Settings');
 
 const router = express.Router();
 
-router.get("/", async ({ user }, res) => {
+router.get('/', async ({ user }, res) => {
   try {
     const { pomodoro_configuration, push_notifications_enabled } =
       await Settings.findOne({ user_id: user.id });
@@ -14,14 +14,14 @@ router.get("/", async ({ user }, res) => {
       pushNotificationsEnabled: push_notifications_enabled,
     });
   } catch (e) {
-    console.error("Failed to get settings", e);
-    res.status(500).json({ error: "Server error" });
+    console.error('Failed to get settings', e);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-router.put("/", async ({ user, body }, res) => {
+router.put('/', async ({ user, body }, res) => {
   try {
-    const userSettins = {
+    const userSettings = {
       user_id: user.id,
       push_notifications_enabled: body.pushNotificationsEnabled,
       pomodoro_configuration: body.pomodoroConfiguration,
@@ -29,10 +29,8 @@ router.put("/", async ({ user, body }, res) => {
 
     const { pomodoro_configuration, push_notifications_enabled } =
       await Settings.findOneAndUpdate(
-        {
-          user_id: userSettins.user_id,
-        },
-        userSettins,
+        { user_id: userSettings.user_id },
+        userSettings,
         { new: true, upsert: true }
       );
 
@@ -41,8 +39,8 @@ router.put("/", async ({ user, body }, res) => {
       pushNotificationsEnabled: push_notifications_enabled,
     });
   } catch (e) {
-    console.error("Failed to update settings", e);
-    res.status(500).json({ error: "Server error" });
+    console.error('Failed to update settings', e);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
