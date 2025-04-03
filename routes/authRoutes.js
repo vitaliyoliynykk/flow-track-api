@@ -51,7 +51,14 @@ router.post("/login", async (req, res) => {
 
     await user.save();
 
-    res.json({ accessToken, refreshToken, user });
+    const userResponse = {
+      email: user.email,
+      id: user._id,
+      profilePictureUrl: user._profile_picture_url,
+      name: user.name,
+    };
+
+    res.json({ accessToken, refreshToken, user: userResponse });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
