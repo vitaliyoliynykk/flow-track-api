@@ -1,0 +1,72 @@
+paths:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      requestBody:
+        description: Register a user
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthRequest"
+      responses:
+        "200":
+          description: User has been registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+  /auth/login:
+    post:
+      tags:
+        - auth
+      requestBody:
+        description: Log in
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthRequest"
+      responses:
+        "200":
+          description: Log in success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+
+components:
+  schemas:
+    AuthRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    UserResponse:
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@example.com
+        id:
+          type: string
+          example: 64ad5d8c12e3e36a7e48f5a9
+        profilePictureUrl:
+          type: string
+          format: uri
+          example: https://example.com/avatar.png
+        name:
+          type: string
+          example: John Doe
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR...
+        refreshToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR...
+        user:
+          $ref: "#/components/schemas/UserResponse"

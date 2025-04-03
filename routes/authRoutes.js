@@ -23,7 +23,14 @@ router.post("/register", async (req, res) => {
 
     await user.save();
 
-    res.status(201).json(user);
+    const userResponse = {
+      email: user.email,
+      id: user._id,
+      profilePictureUrl: user._profile_picture_url,
+      name: user.name,
+    };
+
+    res.status(201).json(userResponse);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });

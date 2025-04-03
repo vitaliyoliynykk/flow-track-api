@@ -11,11 +11,11 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "https://flow-track-api.duckdns.org",
       },
     ],
   },
-  apis: ["./routes/*.js"],
+  apis: ["./swagger.yaml"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
