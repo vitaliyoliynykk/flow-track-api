@@ -51,7 +51,7 @@ router.post("/login", async (req, res) => {
 
     await user.save();
 
-    res.json({ accessToken, refreshToken });
+    res.json({ accessToken, refreshToken, user });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
