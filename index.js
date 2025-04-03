@@ -7,6 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 const userRoutes = require("./routes/userRoutes");
 const tasksRoutes = require("./routes/tasksRoutes");
+const sessionsRoutes = require("./routes/sessionsRoutes");
 
 require("dotenv").config();
 
@@ -20,6 +21,7 @@ app.use("/auth", authRoutes);
 app.use("/settings", authMiddleware, settingsRoutes);
 app.use("/user", authMiddleware, userRoutes);
 app.use("/tasks", authMiddleware, tasksRoutes);
+app.use("/sessions", authMiddleware, sessionsRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

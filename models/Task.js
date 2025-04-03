@@ -8,7 +8,7 @@ const TasksSchema = new mongoose.Schema({
     unique: true,
   },
   title: { type: String, required: true },
-  status: { type: String, required: true },
+  status: { type: String, required: true, default: "new" },
   sessions_goal: { type: Number, required: false },
   sessions_completed: { type: Number, required: false },
   end_date: { type: Date, required: false },
