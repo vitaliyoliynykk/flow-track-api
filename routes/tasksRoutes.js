@@ -29,7 +29,7 @@ router.put("/", async ({ user, body }, res) => {
 
     res.status(200).json(result);
   } catch (e) {
-    console.error("Failed to create a tasks", e);
+    console.error("Failed to create a task", e);
     res.status(500).json({ error: "Server error" });
   }
 });

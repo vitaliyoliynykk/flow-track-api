@@ -33,6 +33,66 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+/tasks:
+  get:
+    tags:
+      - tasks
+    responses:
+      "200":
+        description: Retrieves a list of user tasks
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TasksResponse"
+  put:
+    tags:
+      - tasks
+    requestBody:
+      description: Create a new task
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Task"
+
+/user/update-user-profile-picture-url:
+  post:
+    tags:
+      - user
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              profilePictureUrl:
+                type: string
+                format: url
+/settings:
+  get:
+    tags:
+      - settings
+    responses:
+      "200":
+        description: Log in success
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsResponse"
+  put:
+    tags:
+      - settings
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SettingsResponse"
+    responses:
+      "200":
+        description: Log in success
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingsResponse"
 
 components:
   schemas:
@@ -70,3 +130,59 @@ components:
           example: eyJhbGciOiJIUzI1NiIsInR...
         user:
           $ref: "#/components/schemas/UserResponse"
+    TaskResponse:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        status:
+          type: string
+          example: new
+        sessions_goal:
+          type: integer
+        sessions_completed:
+          type: integer
+        end_date:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+    TasksResponse:
+      type: array
+      properties:
+        $ref: "#/components/schemas/TaskResponse"
+    SettingsResponse:
+      type: object
+      properties:
+        pushNotificationsEnabled:
+          type: boolean
+        pomodoroConfiguration:
+          type: array
+          items:
+            $ref: "#/components/schemas/PomodoroBlock"
+    Task:
+      type: "object"
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        status:
+          type: string
+        sessionsGoal:
+          type: number
+        endDate:
+          type: string
+          format: date-time
+    PomodoroBlock:
+      type: object
+      properties:
+        duration:
+          type: integer
+        type:
+          type: string
