@@ -1,13 +1,14 @@
-const express = require('express');
-const connectDB = require('./config/db');
-const setupSwagger = require('./config/swagger');
-const authMiddleware = require('./middleware/authMiddleware');
+const express = require("express");
+const connectDB = require("./config/db");
+const setupSwagger = require("./config/swagger");
+const authMiddleware = require("./middleware/authMiddleware");
 
-const authRoutes = require('./routes/authRoutes');
-const settingsRoutes = require('./routes/settingsRoutes');
-const userRoutes = require('./routes/userRoutes');
+const authRoutes = require("./routes/authRoutes");
+const settingsRoutes = require("./routes/settingsRoutes");
+const userRoutes = require("./routes/userRoutes");
+const tasksRoutes = require("./routes/tasksRoutes");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 
@@ -15,9 +16,10 @@ connectDB();
 setupSwagger(app);
 
 app.use(express.json());
-app.use('/auth', authRoutes);
-app.use('/settings', authMiddleware, settingsRoutes);
-app.use('/user', authMiddleware, userRoutes);
+app.use("/auth", authRoutes);
+app.use("/settings", authMiddleware, settingsRoutes);
+app.use("/user", authMiddleware, userRoutes);
+app.use("/tasks", authMiddleware, tasksRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
