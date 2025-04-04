@@ -6,6 +6,7 @@ const User = require("../models/User");
 const {
   generateTokens,
   generateNewAccessToken,
+  REFRESH_TOKEN_EXPIRATION,
 } = require("../utils/generateTokens");
 
 const router = express.Router();
@@ -65,7 +66,14 @@ router.post("/login", async (req, res) => {
       name: user.name,
     };
 
-    res.json({ accessToken, refreshToken, user: userResponse });
+    res
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+        maxAge: REFRESH_TOKEN_EXPIRATION,
+      })
+      .json({ accessToken, user: userResponse });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });

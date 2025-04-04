@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const connectDB = require("./config/db");
 const setupSwagger = require("./config/swagger");
 const authMiddleware = require("./middleware/authMiddleware");
@@ -16,7 +17,14 @@ const app = express();
 connectDB();
 setupSwagger(app);
 
+app.use(
+  cors({
+    origin: process.env.WEB_APP_URL,
+    credentials: true,
+  })
+);
 app.use(express.json());
+
 app.use("/auth", authRoutes);
 app.use("/settings", authMiddleware, settingsRoutes);
 app.use("/user", authMiddleware, userRoutes);
