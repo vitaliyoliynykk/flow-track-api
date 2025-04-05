@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "Strict",
+        sameSite: "None",
         maxAge: REFRESH_TOKEN_EXPIRATION,
       })
       .json({ accessToken, user: userResponse });
@@ -103,18 +103,15 @@ router.post("/logout", async (req, res) => {
 
   if (refresh_token) {
     try {
-      console.log("trying to delete token");
       await User.updateOne(
         { refresh_token },
         { $unset: { refresh_token: null } }
       );
 
-      console.log("token deleted");
-
       res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: true,
-        sameSite: "Strict",
+        sameSite: "None",
       });
       res.status(200).json({ message: "ok" });
     } catch (e) {
