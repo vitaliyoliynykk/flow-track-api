@@ -19,7 +19,8 @@ setupSwagger(app);
 
 app.use(
   cors({
-    origin: process.env.WEB_APP_URL,
+    origin: true,
+    // origin: process.env.WEB_APP_URL,
     credentials: true,
   })
 );
