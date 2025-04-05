@@ -4,9 +4,9 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-router.get("/", async ({ user }, res) => {
+router.get("/", async (req, res) => {
   try {
-    const user = await User.findById(user.id);
+    const user = await User.findById(req.user.id);
 
     const userResponse = {
       email: user.email,

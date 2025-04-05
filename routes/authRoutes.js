@@ -98,4 +98,27 @@ router.post("/refresh", async (req, res) => {
   }
 });
 
+router.post("/logout", async (req, res) => {
+  const { refreshToken: refresh_token } = req.body;
+
+  if (refresh_token) {
+    try {
+      await User.updateOne(
+        { refresh_token },
+        { $unset: { refresh_token: null } }
+      );
+
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+      });
+      res.status(200).json({ message: "Logged out successfully" });
+    } catch (e) {
+      console.error("Logout failed", e);
+      res.status(500).json({ message: "Server error during logout" });
+    }
+  }
+});
+
 module.exports = router;
