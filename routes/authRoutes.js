@@ -121,6 +121,8 @@ router.post("/logout", async (req, res) => {
       console.error("Logout failed", e);
       res.status(500).json({ message: "Server error during logout" });
     }
+  } else {
+    res.status(400).json({ message: "No refresh token" });
   }
 });
 
