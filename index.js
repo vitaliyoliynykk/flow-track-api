@@ -18,6 +18,8 @@ const app = express();
 connectDB();
 setupSwagger(app);
 
+console.log("Allowed origin:", process.env.WEB_APP_URL);
+
 app.use(
   cors({
     origin: true,
