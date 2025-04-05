@@ -22,7 +22,6 @@ console.log("Allowed origin:", process.env.WEB_APP_URL);
 
 app.use(
   cors({
-    origin: true,
     origin: process.env.WEB_APP_URL,
     credentials: true,
   })
