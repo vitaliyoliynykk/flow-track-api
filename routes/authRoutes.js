@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/refresh", async (req, res) => {
-  const { refreshToken: refresh_token } = req.body;
+  const { refreshToken: refresh_token } = req.cookies;
 
   if (!refresh_token)
     return res.status(401).json({ message: "Not authorized" });
@@ -99,7 +99,7 @@ router.post("/refresh", async (req, res) => {
 });
 
 router.post("/logout", async (req, res) => {
-  const { refreshToken: refresh_token } = req.body;
+  const { refreshToken: refresh_token } = req.cookies;
 
   if (refresh_token) {
     try {
@@ -113,7 +113,7 @@ router.post("/logout", async (req, res) => {
         secure: true,
         sameSite: "Strict",
       });
-      res.status(200).json({ message: "Logged out successfully" });
+      res.status(200).json({ message: "ok" });
     } catch (e) {
       console.error("Logout failed", e);
       res.status(500).json({ message: "Server error during logout" });

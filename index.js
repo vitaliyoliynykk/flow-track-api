@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 const setupSwagger = require("./config/swagger");
 const authMiddleware = require("./middleware/authMiddleware");
@@ -25,6 +26,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/auth", authRoutes);
 app.use("/settings", authMiddleware, settingsRoutes);
