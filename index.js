@@ -18,12 +18,11 @@ const app = express();
 connectDB();
 setupSwagger(app);
 
-const allowedOrigins = [process.env.WEB_APP_URL];
+const allowedOrigins = [process.env.WEB_APP_URL, "http://localhost:5173"];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      console.log("request from origin: ", origin);
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {

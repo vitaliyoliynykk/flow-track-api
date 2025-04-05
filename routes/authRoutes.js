@@ -103,10 +103,13 @@ router.post("/logout", async (req, res) => {
 
   if (refresh_token) {
     try {
+      console.log("trying to delete token");
       await User.updateOne(
         { refresh_token },
         { $unset: { refresh_token: null } }
       );
+
+      console.log("token deleted");
 
       res.clearCookie("refreshToken", {
         httpOnly: true,
