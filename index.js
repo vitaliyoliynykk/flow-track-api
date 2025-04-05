@@ -18,14 +18,22 @@ const app = express();
 connectDB();
 setupSwagger(app);
 
-console.log("Allowed origin:", process.env.WEB_APP_URL);
+const allowedOrigins = [process.env.WEB_APP_URL];
 
 app.use(
   cors({
-    origin: true,
+    origin: (origin, callback) => {
+      console.log("request from origin: ", origin);
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
